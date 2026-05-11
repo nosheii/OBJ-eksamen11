@@ -146,29 +146,29 @@ public class SortSearchDemo extends Application {
     }
 
     private void quicksort(int[] arr, int low, int high) {
-        if (low < high) {
-            int pivotIndex = partition(arr, low, high);
-            quicksort(arr, low, pivotIndex - 1);  // venstre side
-            quicksort(arr, pivotIndex + 1, high); // høyre side
+        if (low < high) { // base case: hvis low >= high, er det ingen elementer å sortere
+            int pivotIndex = partition(arr, low, high); // finn pivot-indeks etter partisjonering
+            quicksort(arr, low, pivotIndex - 1);  // venstre side av pivot
+            quicksort(arr, pivotIndex + 1, high); // høyre side av pivot
             }
     }
-    private int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
-        int i = low - 1;
+    private int partition(int[] arr, int low, int high) { 
+        int pivot = arr[high]; // velg siste element som pivot
+        int i = low - 1; // i vil holde styr på den siste posisjonen for elementer mindre enn eller lik pivot
 
-        for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
-                i++;
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+        for (int j = low; j < high; j++) { // iterer gjennom elementene fra low til high-1
+            if (arr[j] <= pivot) { // hvis elementet er mindre enn eller lik pivot
+                i++; // flytt i opp for å inkludere dette elementet
+                int temp = arr[i]; // bytt arr[i] og arr[j]
+                arr[i] = arr[j]; // flytt arr[j] til posisjonen i
+                arr[j] = temp; // flytt det tidligere arr[i] til posisjonen j
             }
         }
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
+        int temp = arr[i + 1]; // bytt arr[i + 1] og arr[high] for å plassere pivot på riktig sted
+        arr[i + 1] = arr[high]; // flytt pivot til posisjonen i + 1
+        arr[high] = temp; // flytt det tidligere arr[i + 1] til posisjonen high
 
-        return i + 1;
+        return i + 1; // returner den nye pivot-indeksen
     }
 
     private int binarySearch(int[] arr, int target) {
