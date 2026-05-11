@@ -45,11 +45,10 @@ public class MainApp extends Application {
         // ── Dropdown ────────────────────────────────────────────────
         ComboBox<String> combo = new ComboBox<>();
         combo.getItems().addAll(
-            "Queue Demonstration",
-            "Sort and Search Demonstration",
-            "Thread Demonstration",
-            "Currency Converter Demonstration"
-        );
+                "Queue Demonstration",
+                "Sort and Search Demonstration",
+                "Thread Demonstration",
+                "Currency Converter Demonstration");
         combo.setPromptText("— Velg en demo —");
         combo.setPrefWidth(300);
 
@@ -61,11 +60,10 @@ public class MainApp extends Application {
         Button openBtn = new Button("Open");
         openBtn.setPrefWidth(120);
         openBtn.setStyle(
-            "-fx-background-color: #2563eb;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 6;"
-        );
+                "-fx-background-color: #2563eb;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 6;");
         openBtn.setOnAction(e -> {
             if (combo.getValue() == null) {
                 errorLabel.setText("Velg en demo først!");
@@ -77,13 +75,12 @@ public class MainApp extends Application {
 
         // ── Layout ──────────────────────────────────────────────────
         VBox root = new VBox(14,
-            title,
-            subtitle,
-            new Separator(),
-            combo,
-            openBtn,
-            errorLabel
-        );
+                title,
+                subtitle,
+                new Separator(),
+                combo,
+                openBtn,
+                errorLabel);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(30));
         root.setStyle("-fx-background-color: #f8fafc;");
@@ -102,9 +99,9 @@ public class MainApp extends Application {
     private void openDemo(String choice) {
         try {
             switch (choice) {
-                case "Queue Demonstration"              -> new ThreadDemo().start(new Stage());
-                case "Sort and Search Demonstration"    -> new SortSearchDemo().start(new Stage());
-                case "Thread Demonstration"             -> new ThreadDemo().start(new Stage());
+                case "Queue Demonstration" -> new QueueDemo().start(new Stage());
+                case "Sort and Search Demonstration" -> new SortSearchDemo().start(new Stage());
+                case "Thread Demonstration" -> new ThreadDemo().start(new Stage());
                 case "Currency Converter Demonstration" -> new CurrencyConverterDemo().start(new Stage());
             }
         } catch (Exception e) {
