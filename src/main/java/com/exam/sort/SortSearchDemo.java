@@ -28,6 +28,10 @@ public class SortSearchDemo extends Application {
         Label title = new Label("Sort and Search Demonstration");
         title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 16));
 
+        // –– Subtittel –––––––––––––––––––––––––––––––––––––––––
+        Label subtitle = new Label("Enter 8-15 numbers, sort them, then search or remove 3 elements at a time.");
+        subtitle.setStyle("-fx-text-fill: #666; -fx-font-size: 12;");
+
         // ── Inputfelt for tall ───────────────────────────────
         inputField = new TextField();
         inputField.setPromptText("Enter 8-15 integers separated by spaces");
@@ -71,6 +75,7 @@ public class SortSearchDemo extends Application {
         // ── Samle alt i VBox ─────────────────────────────────
         VBox root = new VBox(12,
                 title,
+                subtitle,
                 new Separator(),
                 inputRow,
                 btnRow,
@@ -116,23 +121,24 @@ public class SortSearchDemo extends Application {
         }
     }
 
-    /** Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
+    /**
+     * Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
      * Hvis data[] ikke er lastet inn, vises en feilmelding.
      * Etter sortering settes sorted = true.
      */
     private void handleSort() {
-        if (data == null) { 
-            outputArea.setText("Please load data before sorting."); 
+        if (data == null) {
+            outputArea.setText("Please load data before sorting.");
             return;
         }
         quicksort(data, 0, data.length - 1);
         sorted = true;
 
-        StringBuilder sb = new StringBuilder(); 
-        for (int i = 0; i < data.length; i++) { 
-            sb.append(data[i]).append(" "); 
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            sb.append(data[i]).append(" ");
         }
-        outputArea.setText("Tallene er sortert!"); 
+        outputArea.setText("Tallene er sortert!");
     }
 
     private void handleShow() {
@@ -199,9 +205,9 @@ public class SortSearchDemo extends Application {
             outputArea.setText("Please sort the data before removing elements.");
             return;
         }
-        // Må ha minst 7 elementer - indeks 0,1,2 før + indeks 3,4,5 som fjernes + minst
+        // Må ha minst 6 elementer - indeks 0,1,2 før + indeks 3,4,5 som fjernes + minst
         // 1 etter
-        if (data.length < 7) {
+        if (data.length < 6) {
             outputArea.setText("Error: Not possible to remove 3 more elements.");
             return;
         }
@@ -226,49 +232,61 @@ public class SortSearchDemo extends Application {
         outputArea.setText("Removed 3 elements from index 3. Array now has " + data.length + " elements.");
     }
 
-    /* Quicksort-algoritme. Den tar et array og sorterer det in-place mellom indeks low og high.
-    * Hvis low er mindre enn high, betyr det at det er mer enn ett element å sortere. 
-    * Vi kaller partition for å finne pivot-indeksen, og deretter rekursivt sortere de to delene av arrayet.
-    */
+    /*
+     * Quicksort-algoritme. Den tar et array og sorterer det in-place mellom indeks
+     * low og high.
+     * Hvis low er mindre enn high, betyr det at det er mer enn ett element å
+     * sortere.
+     * Vi kaller partition for å finne pivot-indeksen, og deretter rekursivt sortere
+     * de to delene av arrayet.
+     */
     private void quicksort(int[] arr, int low, int high) {
-        if (low < high) { 
-            int pivotIndex = partition(arr, low, high); 
-            quicksort(arr, low, pivotIndex - 1); 
-            quicksort(arr, pivotIndex + 1, high); 
+        if (low < high) {
+            int pivotIndex = partition(arr, low, high);
+            quicksort(arr, low, pivotIndex - 1);
+            quicksort(arr, pivotIndex + 1, high);
         }
     }
 
-    /* Partisjoneringsmetode for quicksort. Den tar det siste elementet som pivot, 
-    * og ordner elementene slik at alle elementer mindre enn eller lik pivot er til venstre,
-    * og alle elementer større enn pivoter til høyre. 
-    * Den returnerer den nye indeksen for pivot etter partisjoneringen.
-    */
+    /*
+     * Partisjoneringsmetode for quicksort. Den tar det siste elementet som pivot,
+     * og ordner elementene slik at alle elementer mindre enn eller lik pivot er til
+     * venstre,
+     * og alle elementer større enn pivoter til høyre.
+     * Den returnerer den nye indeksen for pivot etter partisjoneringen.
+     */
     private int partition(int[] arr, int low, int high) {
         int pivot = arr[high];
         int i = low - 1;
-        
-        /* Vi itererer gjennom alle elementene fra low til high-1. Hvis vi finner et element som er mindre enn eller lik pivot,
-         * flytter vi i opp og bytter det elementet med elementet på posisjonen i. 
+
+        /*
+         * Vi itererer gjennom alle elementene fra low til high-1. Hvis vi finner et
+         * element som er mindre enn eller lik pivot,
+         * flytter vi i opp og bytter det elementet med elementet på posisjonen i.
          */
-        for (int j = low; j < high; j++) { 
-            if (arr[j] <= pivot) { 
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
                 int temp = arr[i];
-                arr[i] = arr[j]; 
-                arr[j] = temp; 
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
         }
-        /* Etter løkken, i er på den siste posisjonen for elementer mindre enn eller lik pivot.
+        /*
+         * Etter løkken, i er på den siste posisjonen for elementer mindre enn eller lik
+         * pivot.
          * Nå bytter vi pivot (arr[high]) med elementet på i+1 for å plassere pivot på
          * riktig sted.
-         */ 
-        int temp = arr[i + 1]; 
-        arr[i + 1] = arr[high]; 
-        arr[high] = temp; 
+         */
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
 
-        return i + 1; 
+        return i + 1;
     }
 
-    /* Binærsøk-algoritme. Den tar et sortert array og et mål, 
+    /*
+     * Binærsøk-algoritme. Den tar et sortert array og et mål,
      * og returnerer indeksen til målet hvis det finnes,
      * ellers returnerer -1.
      */
