@@ -50,11 +50,11 @@ public class QueueDemo extends Application {
     public void start(Stage stage) {
         stage.setTitle("Queue Demonstration");
 
-        // ── Title ─────────────────────────────────────────────────────
+        // Title
         Label titleLabel = new Label("Queue Demonstration");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 
-        // ── Step 1: Create queue ───────────────────────────────────────
+        // Step 1: Create queue
         Label step1Label = new Label("Step 1 – Create a queue");
         step1Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
@@ -72,7 +72,7 @@ public class QueueDemo extends Application {
         showButton.setDisable(true);
         sortButton.setDisable(true);
 
-        // ── Step 2: Add/Remove values ──────────────────────────────────
+        // Step 2: Add/Remove values
         Label step2Label = new Label("Step 2 – Add or remove values");
         step2Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
@@ -84,7 +84,7 @@ public class QueueDemo extends Application {
         valueInput.setPromptText("e.g. 42");
         valueInput.setMaxWidth(120);
 
-        // ── Step 3: Show / Sort ────────────────────────────────────────
+        // Step 3: Show / Sort 
         Label step3Label = new Label("Step 3 – View or sort the queue");
         step3Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
@@ -93,13 +93,13 @@ public class QueueDemo extends Application {
             "'Sort Queue' displays a sorted copy (original queue unchanged)."
         );
 
-        // ── Queue status labels ────────────────────────────────────────
+        // Queue status labels 
         Label statusTitle = new Label("Queue Status:");
         statusTitle.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
         HBox statusBox = new HBox(20, countLabel, frontLabel, rearLabel);
 
-        // ── Message/result label ───────────────────────────────────────
+        // Message/result label
         messageLabel.setStyle("-fx-text-fill: #1565c0; -fx-font-size: 13px;");
         messageLabel.setWrapText(true);
 
