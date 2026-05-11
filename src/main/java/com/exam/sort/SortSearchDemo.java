@@ -119,42 +119,125 @@ public class SortSearchDemo extends Application {
     // TODO: les inputField, valider 8-15 tall, lagre i data[]
 
     private void handleSort() {
-        //En metode for å sortere data[] og vise resultatet i outputArea
+        // En metode for å sortere data[] og vise resultatet i outputArea
         if (data == null) { // hvis ingen data er lastet inn
             outputArea.setText("Please load data before sorting."); // vis feilmelding
-            return; 
+            return;
         }
         quicksort(data, 0, data.length - 1);
         sorted = true;
-        StringBuilder sb= new StringBuilder(); // bygg opp en streng for å vise sortert data
+        StringBuilder sb = new StringBuilder(); // bygg opp en streng for å vise sortert data
         for (int i = 0; i < data.length; i++) { // iterer gjennom data[] og legg til i sb
-            sb.append(data[i]) .append(" "); // legg til tallet og et mellomrom
+            sb.append(data[i]).append(" "); // legg til tallet og et mellomrom
         }
-        outputArea.setText(sb.toString()); // vis sortert data i outputArea 
+        outputArea.setText("Tallene er sortert!"); // vis sortert data i outputArea
     }
+
     // TODO: kall quicksort, sett sorted = true
     private void handleShow() {
-        // TODO: vis innholdet av data[] i outputArea
+        // Steg 1 - sjekk at data er sortert og lastet inn
+        if (data == null || !sorted) {
+            outputArea.setText(
+                    (data == null) ? "Please load data before showing." : "Please sort the data before showing.");
+            return;
+        }
+
+        // Steg 3 - bygg opp og vis innholdet
+        StringBuilder sb = new StringBuilder("Array contents: ");
+        for (int i = 0; i < data.length; i++) {
+            sb.append(data[i]).append(" ");
+        }
+        outputArea.setText(sb.toString());
     }
 
     private void handleSearch() {
-        // TODO: kall binærsøk, vis resultat i outputArea
+        if (data == null) {
+            outputArea.setText("Please load data before searching.");
+            return;
+        }
+        if (!sorted) {
+            outputArea.setText("Please sort the data before searching.");
+            return;
+        }
+        String input = searchField.getText();
+        if (input.isEmpty()) {
+            outputArea.setText("Please enter a number to search for.");
+            return;
+        }
+        try {
+            int target = Integer.parseInt(input);
+
+            // Too high / Too low hint
+            if (target > data[data.length - 1]) {
+                outputArea.setText("Too high! Max value is " + data[data.length - 1]);
+                return;
+            }
+            if (target < data[0]) {
+                outputArea.setText("Too low! Min value is " + data[0]);
+                return;
+            }
+
+            // Binærsøk
+            int index = binarySearch(data, target);
+            if (index != -1) {
+                outputArea.setText("Value " + target + " was found at position " + index + " in the array.");
+            } else {
+                outputArea.setText("Value " + target + " was not found in the array.");
+            }
+        } catch (NumberFormatException e) {
+            outputArea.setText("Error: Please enter a valid integer.");
+        }
     }
 
     private void handleRem3() {
-        // TODO: fjern 3 elementer fra indeks 3
+        if (data == null) {
+            outputArea.setText("Please load data before removing elements.");
+            return;
+        }
+        if (!sorted) {
+            outputArea.setText("Please sort the data before removing elements.");
+            return;
+        }
+        // Må ha minst 7 elementer - indeks 0,1,2 før + indeks 3,4,5 som fjernes + minst
+        // 1 etter
+        if (data.length < 7) {
+            outputArea.setText("Error: Not possible to remove 3 more elements.");
+            return;
+        }
+
+        int startIndex = 3;
+        int removeCount = 3;
+
+        // Nytt array er 3 mindre
+        int[] newData = new int[data.length - removeCount];
+
+        // Kopier elementene FØR indeks 3
+        for (int i = 0; i < startIndex; i++) {
+            newData[i] = data[i];
+        }
+
+        // Kopier elementene ETTER de fjernede
+        for (int i = startIndex + removeCount; i < data.length; i++) {
+            newData[i - removeCount] = data[i];
+        }
+
+        data = newData;
+        outputArea.setText("Removed 3 elements from index 3. Array now has " + data.length + " elements.");
     }
 
     private void quicksort(int[] arr, int low, int high) {
+
         if (low < high) { // base case: hvis low >= high, er det ingen elementer å sortere
             int pivotIndex = partition(arr, low, high); // finn pivot-indeks etter partisjonering
-            quicksort(arr, low, pivotIndex - 1);  // venstre side av pivot
+            quicksort(arr, low, pivotIndex - 1); // venstre side av pivot
             quicksort(arr, pivotIndex + 1, high); // høyre side av pivot
-            }
+        }
     }
-    private int partition(int[] arr, int low, int high) { 
+
+    private int partition(int[] arr, int low, int high) {
         int pivot = arr[high]; // velg siste element som pivot
-        int i = low - 1; // i vil holde styr på den siste posisjonen for elementer mindre enn eller lik pivot
+        int i = low - 1; // i vil holde styr på den siste posisjonen for elementer mindre enn eller lik
+                         // pivot
 
         for (int j = low; j < high; j++) { // iterer gjennom elementene fra low til high-1
             if (arr[j] <= pivot) { // hvis elementet er mindre enn eller lik pivot
@@ -172,7 +255,20 @@ public class SortSearchDemo extends Application {
     }
 
     private int binarySearch(int[] arr, int target) {
-        // TODO: returner indeks eller -1
-        return -1;
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) {
+                return mid; // funnet!
+            } else if (arr[mid] < target) {
+                low = mid + 1; // søk i høyre halvdel
+            } else {
+                high = mid - 1; // søk i venstre halvdel
+            }
+        }
+        return -1; // ikke funnet
     }
 }
