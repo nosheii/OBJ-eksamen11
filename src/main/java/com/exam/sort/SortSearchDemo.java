@@ -116,7 +116,7 @@ public class SortSearchDemo extends Application {
         }
     }
 
-    /* Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
+    /** Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
      * Hvis data[] ikke er lastet inn, vises en feilmelding.
      * Etter sortering settes sorted = true.
      */
