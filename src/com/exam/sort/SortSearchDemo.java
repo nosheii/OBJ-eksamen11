@@ -94,6 +94,16 @@ public class SortSearchDemo extends Application {
 
     private void handleSort() {
         // TODO: kall quicksort, sett sorted = true
+        //En metode for å sortere data[] og vise resultatet i outputArea
+        if (data == null) { // hvis ingen data er lastet inn
+            outputArea.setText("Please load data before sorting."); // vis feilmelding
+            return; 
+        }
+        StringBuilder sb= new StringBuilder(); // bygg opp en streng for å vise sortert data
+        for (int i = 0; i < data.length; i++) { // iterer gjennom data[] og legg til i sb
+            sb.append(data[i]) .append(" "); // legg til tallet og et mellomrom
+        }
+        outputArea.setText(sb.toString()); // vis sortert data i outputArea 
     }
 
     private void handleShow() {
