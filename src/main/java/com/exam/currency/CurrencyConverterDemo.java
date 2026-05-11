@@ -30,10 +30,13 @@ public class CurrencyConverterDemo extends Application {
 
         // COMPONENTS
         ComboBox<String> fromCurrency = new ComboBox<>();
+        Label titleLabel = new Label("Choose currencies and enter amount");
+        Label fromLabel = new Label("From:");
         fromCurrency.getItems().addAll("EUR","USD","JPY","GBP","SEK","DKK","CHF","CAD","AUD","NOK");
         fromCurrency.setValue("EUR");
 
         ComboBox<String> toCurrency = new ComboBox<>();
+        Label toLabel = new Label("To:");
         toCurrency.getItems().addAll("EUR","USD","JPY","GBP","SEK","DKK","CHF","CAD","AUD","NOK");
         toCurrency.setValue("NOK");
 
@@ -43,6 +46,8 @@ public class CurrencyConverterDemo extends Application {
         Button convertButton = new Button("Convert");
         Label resultLabel = new Label("");
         Label errorLabel = new Label("");
+
+        Label infoLabel = new Label("Exchange rates are based on EUR as the base currency.");
 
         // BUTTON LOGIC
         convertButton.setOnAction(e -> {
@@ -83,7 +88,17 @@ public class CurrencyConverterDemo extends Application {
         });
 
         // LAYOUT
-        VBox layout = new VBox(10, fromCurrency, toCurrency, amountField, convertButton, resultLabel, errorLabel);
+        VBox layout = new VBox(10,
+            titleLabel,
+            fromLabel, fromCurrency,
+            toLabel, toCurrency,
+            amountField,
+            convertButton,
+            resultLabel,
+            errorLabel,
+            infoLabel
+        );
+        
         layout.setPadding(new Insets(20));
 
         stage.setScene(new Scene(layout, 400, 300));
