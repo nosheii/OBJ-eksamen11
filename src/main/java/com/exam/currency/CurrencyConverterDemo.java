@@ -98,10 +98,10 @@ public class CurrencyConverterDemo extends Application {
             errorLabel,
             infoLabel
         );
-        
+
         layout.setPadding(new Insets(20));
 
-        stage.setScene(new Scene(layout, 400, 300));
+        stage.setScene(new Scene(layout, 400, 420));
         stage.show();
     }
 }
