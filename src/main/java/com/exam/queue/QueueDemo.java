@@ -12,6 +12,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class QueueDemo extends Application {
@@ -21,7 +24,7 @@ public class QueueDemo extends Application {
      front = F
      rear = R
      count = number of elements
-     capasity = Max size
+     capacity = Max size
      */
 
     private int[] queue;
@@ -40,33 +43,65 @@ public class QueueDemo extends Application {
     // Add/Remove/Show/Sort buttons (disabled until queue is created)
     private Button addButton    = new Button("Add");
     private Button removeButton = new Button("Remove");
-    private Button showButton   = new Button("Show");
-    private Button sortButton   = new Button("Sort");
+    private Button showButton   = new Button("Show Queue");
+    private Button sortButton   = new Button("Sort Queue");
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("Queue Demonstration");
 
-        /**
-        Size input + Create button:
-        Choose a valid queue capacity and create queue
+        // ── Title ─────────────────────────────────────────────────────
+        Label titleLabel = new Label("Queue Demonstration");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 
-        disable queue buttons until queue is created
+        // ── Step 1: Create queue ───────────────────────────────────────
+        Label step1Label = new Label("Step 1 – Create a queue");
+        step1Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
-        enter values for queue until capacity is reached
-        */
+        Label sizeHintLabel = new Label("Enter the maximum number of elements (N) and click 'Create Queue':");
+
         TextField sizeInput = new TextField();
-        sizeInput.setPromptText("Enter queue capacity N...");
+        sizeInput.setPromptText("e.g. 5");
+        sizeInput.setMaxWidth(80);
 
         Button initButton = new Button("Create Queue");
 
+        // Disable queue buttons until queue is created
         addButton.setDisable(true);
         removeButton.setDisable(true);
         showButton.setDisable(true);
         sortButton.setDisable(true);
 
-        valueInput.setPromptText("Enter value...");
+        // ── Step 2: Add/Remove values ──────────────────────────────────
+        Label step2Label = new Label("Step 2 – Add or remove values");
+        step2Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
 
+        Label valueHintLabel = new Label(
+            "Enter an integer value and click 'Add' to enqueue,\n" +
+            "or click 'Remove' to dequeue the front element:"
+        );
+
+        valueInput.setPromptText("e.g. 42");
+        valueInput.setMaxWidth(120);
+
+        // ── Step 3: Show / Sort ────────────────────────────────────────
+        Label step3Label = new Label("Step 3 – View or sort the queue");
+        step3Label.setFont(Font.font("Arial", FontWeight.BOLD, 13));
+
+        Label showHintLabel = new Label(
+            "'Show Queue' displays all current elements.\n" +
+            "'Sort Queue' displays a sorted copy (original queue unchanged)."
+        );
+
+        // ── Queue status labels ────────────────────────────────────────
+        Label statusTitle = new Label("Queue Status:");
+        statusTitle.setFont(Font.font("Arial", FontWeight.BOLD, 13));
+
+        HBox statusBox = new HBox(20, countLabel, frontLabel, rearLabel);
+
+        // ── Message/result label ───────────────────────────────────────
+        messageLabel.setStyle("-fx-text-fill: #1565c0; -fx-font-size: 13px;");
+        messageLabel.setWrapText(true);
 
         /**
         Queue demonstration - Array-Based Circular Queue
@@ -79,10 +114,6 @@ public class QueueDemo extends Application {
         Full check: count == capacity
         Empty check: count == 0
         Sort copies the queue into a new array, original remains unchanged
-
-        Enables buttons so user can edit the queue
-
-        Throws exception if value is invalid
         */
 
         initButton.setOnAction(e -> {
@@ -99,7 +130,7 @@ public class QueueDemo extends Application {
                 rear     = -1;
                 count    = 0;
                 updateLabels();
-                messageLabel.setText("Queue created with capacity " + n + ".");
+                messageLabel.setText("Queue created with capacity " + n + ". You can now add elements.");
 
                 addButton.setDisable(false);
                 removeButton.setDisable(false);
@@ -113,15 +144,9 @@ public class QueueDemo extends Application {
 
         /**
         Add button logic:
-
-        If queue is full, user cannot add more items
-
-        Circular logic:
-        - rear starts at -1 (empty queue)
-        - rear moves forward by 1 each time an element is added
-        - % capacity ensures rear wraps back to 0 when it reaches the end
-
-        Throws exception if invalid input
+        - If queue is full, show error and stop
+        - Circular rear: rear = (rear + 1) % capacity
+        - Throws exception if invalid input
         */
         addButton.setOnAction(e -> {
             if (count == capacity) {
@@ -130,7 +155,6 @@ public class QueueDemo extends Application {
             }
             try {
                 int value = Integer.parseInt(valueInput.getText().trim());
-
                 rear = (rear + 1) % capacity;
                 queue[rear] = value;
                 count++;
@@ -143,14 +167,9 @@ public class QueueDemo extends Application {
         });
 
         /**
-        Remove button logic
-        - Check if queue is empty, if it is, show error and stop
-        - Else
-            - get value at queue[front]
-            - Move front forward (+1)
-            - Count decrements and update label
-            - Display message
-
+        Remove button logic:
+        - Check if queue is empty → show error and stop
+        - Get value at queue[front], move front forward, decrement count
         */
         removeButton.setOnAction(e -> {
             if (count == 0) {
@@ -165,15 +184,11 @@ public class QueueDemo extends Application {
         });
 
         /**
-        Show button logic
-        Check if queue is empty (count == 0) → show error and stop
+        Show button logic:
         - Loop through count elements starting from front
         - Use (front + i) % capacity to handle circular wrapping
         - Display each element separated by "|"
-        Example: "Queue: 20 | 30 | 40 | 50 | 60"
-
         */
-
         showButton.setOnAction(e -> {
             if (count == 0) {
                 messageLabel.setText("Queue is empty.");
@@ -188,12 +203,10 @@ public class QueueDemo extends Application {
         });
 
         /**
-        Sort button logic (copies queue, does not modify original)
-
+        Sort button logic (copies queue, does not modify original):
         - Copy current queue contents into a new array
         - Bubble sort on the copy
         - Display sorted copy
-
         */
         sortButton.setOnAction(e -> {
             if (count == 0) {
@@ -209,8 +222,8 @@ public class QueueDemo extends Application {
             for (int i = 0; i < sorted.length - 1; i++) {
                 for (int j = 0; j < sorted.length - 1 - i; j++) {
                     if (sorted[j] > sorted[j + 1]) {
-                        int temp    = sorted[j];
-                        sorted[j]   = sorted[j + 1];
+                        int temp      = sorted[j];
+                        sorted[j]     = sorted[j + 1];
                         sorted[j + 1] = temp;
                     }
                 }
@@ -224,23 +237,29 @@ public class QueueDemo extends Application {
             messageLabel.setText(sb.toString());
         });
 
-        //Layout
-        VBox layout = new VBox(10,
-            sizeInput,
-            initButton,
-            countLabel,
-            frontLabel,
-            rearLabel,
-            valueInput,
-            addButton,
-            removeButton,
-            showButton,
-            sortButton,
+        // Layout
+        VBox layout = new VBox(8,
+            titleLabel,
+            new Separator(),
+            step1Label,
+            sizeHintLabel,
+            new HBox(10, sizeInput, initButton),
+            new Separator(),
+            step2Label,
+            valueHintLabel,
+            new HBox(10, valueInput, addButton, removeButton),
+            new Separator(),
+            step3Label,
+            showHintLabel,
+            new HBox(10, showButton, sortButton),
+            new Separator(),
+            statusTitle,
+            statusBox,
             messageLabel
         );
         layout.setPadding(new Insets(20));
 
-        stage.setScene(new Scene(layout, 400, 450));
+        stage.setScene(new Scene(layout, 440, 520));
         stage.show();
     }
 
