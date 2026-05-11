@@ -116,24 +116,25 @@ public class SortSearchDemo extends Application {
         }
     }
 
-    // TODO: les inputField, valider 8-15 tall, lagre i data[]
-
+    /* Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
+     * Hvis data[] ikke er lastet inn, vises en feilmelding.
+     * Etter sortering settes sorted = true.
+     */
     private void handleSort() {
-        // En metode for å sortere data[] og vise resultatet i outputArea
-        if (data == null) { // hvis ingen data er lastet inn
-            outputArea.setText("Please load data before sorting."); // vis feilmelding
+        if (data == null) { 
+            outputArea.setText("Please load data before sorting."); 
             return;
         }
         quicksort(data, 0, data.length - 1);
         sorted = true;
-        StringBuilder sb = new StringBuilder(); // bygg opp en streng for å vise sortert data
-        for (int i = 0; i < data.length; i++) { // iterer gjennom data[] og legg til i sb
-            sb.append(data[i]).append(" "); // legg til tallet og et mellomrom
+
+        StringBuilder sb = new StringBuilder(); 
+        for (int i = 0; i < data.length; i++) { 
+            sb.append(data[i]).append(" "); 
         }
-        outputArea.setText("Tallene er sortert!"); // vis sortert data i outputArea
+        outputArea.setText("Tallene er sortert!"); 
     }
 
-    // TODO: kall quicksort, sett sorted = true
     private void handleShow() {
         // Steg 1 - sjekk at data er sortert og lastet inn
         if (data == null || !sorted) {
@@ -225,35 +226,52 @@ public class SortSearchDemo extends Application {
         outputArea.setText("Removed 3 elements from index 3. Array now has " + data.length + " elements.");
     }
 
+    /* Quicksort-algoritme. Den tar et array og sorterer det in-place mellom indeks low og high.
+    * Hvis low er mindre enn high, betyr det at det er mer enn ett element å sortere. 
+    * Vi kaller partition for å finne pivot-indeksen, og deretter rekursivt sortere de to delene av arrayet.
+    */
     private void quicksort(int[] arr, int low, int high) {
-
-        if (low < high) { // base case: hvis low >= high, er det ingen elementer å sortere
-            int pivotIndex = partition(arr, low, high); // finn pivot-indeks etter partisjonering
-            quicksort(arr, low, pivotIndex - 1); // venstre side av pivot
-            quicksort(arr, pivotIndex + 1, high); // høyre side av pivot
+        if (low < high) { 
+            int pivotIndex = partition(arr, low, high); 
+            quicksort(arr, low, pivotIndex - 1); 
+            quicksort(arr, pivotIndex + 1, high); 
         }
     }
 
+    /* Partisjoneringsmetode for quicksort. Den tar det siste elementet som pivot, 
+    * og ordner elementene slik at alle elementer mindre enn eller lik pivot er til venstre,
+    * og alle elementer større enn pivoter til høyre. 
+    * Den returnerer den nye indeksen for pivot etter partisjoneringen.
+    */
     private int partition(int[] arr, int low, int high) {
-        int pivot = arr[high]; // velg siste element som pivot
-        int i = low - 1; // i vil holde styr på den siste posisjonen for elementer mindre enn eller lik
-                         // pivot
-
-        for (int j = low; j < high; j++) { // iterer gjennom elementene fra low til high-1
-            if (arr[j] <= pivot) { // hvis elementet er mindre enn eller lik pivot
-                i++; // flytt i opp for å inkludere dette elementet
-                int temp = arr[i]; // bytt arr[i] og arr[j]
-                arr[i] = arr[j]; // flytt arr[j] til posisjonen i
-                arr[j] = temp; // flytt det tidligere arr[i] til posisjonen j
+        int pivot = arr[high];
+        int i = low - 1;
+        
+        /* Vi itererer gjennom alle elementene fra low til high-1. Hvis vi finner et element som er mindre enn eller lik pivot,
+         * flytter vi i opp og bytter det elementet med elementet på posisjonen i. 
+         */
+        for (int j = low; j < high; j++) { 
+            if (arr[j] <= pivot) { 
+                int temp = arr[i];
+                arr[i] = arr[j]; 
+                arr[j] = temp; 
             }
         }
-        int temp = arr[i + 1]; // bytt arr[i + 1] og arr[high] for å plassere pivot på riktig sted
-        arr[i + 1] = arr[high]; // flytt pivot til posisjonen i + 1
-        arr[high] = temp; // flytt det tidligere arr[i + 1] til posisjonen high
+        /* Etter løkken, i er på den siste posisjonen for elementer mindre enn eller lik pivot.
+         * Nå bytter vi pivot (arr[high]) med elementet på i+1 for å plassere pivot på
+         * riktig sted.
+         */ 
+        int temp = arr[i + 1]; 
+        arr[i + 1] = arr[high]; 
+        arr[high] = temp; 
 
-        return i + 1; // returner den nye pivot-indeksen
+        return i + 1; 
     }
 
+    /* Binærsøk-algoritme. Den tar et sortert array og et mål, 
+     * og returnerer indeksen til målet hvis det finnes,
+     * ellers returnerer -1.
+     */
     private int binarySearch(int[] arr, int target) {
         int low = 0;
         int high = arr.length - 1;
