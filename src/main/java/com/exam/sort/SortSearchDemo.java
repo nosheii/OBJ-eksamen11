@@ -119,19 +119,20 @@ public class SortSearchDemo extends Application {
     // TODO: les inputField, valider 8-15 tall, lagre i data[]
 
     private void handleSort() {
-        // TODO: kall quicksort, sett sorted = true
         //En metode for å sortere data[] og vise resultatet i outputArea
         if (data == null) { // hvis ingen data er lastet inn
             outputArea.setText("Please load data before sorting."); // vis feilmelding
             return; 
         }
+        quicksort(data, 0, data.length - 1);
+        sorted = true;
         StringBuilder sb= new StringBuilder(); // bygg opp en streng for å vise sortert data
         for (int i = 0; i < data.length; i++) { // iterer gjennom data[] og legg til i sb
             sb.append(data[i]) .append(" "); // legg til tallet og et mellomrom
         }
         outputArea.setText(sb.toString()); // vis sortert data i outputArea 
     }
-
+    // TODO: kall quicksort, sett sorted = true
     private void handleShow() {
         // TODO: vis innholdet av data[] i outputArea
     }
@@ -145,7 +146,29 @@ public class SortSearchDemo extends Application {
     }
 
     private void quicksort(int[] arr, int low, int high) {
-        // TODO: rekursiv quicksort
+        if (low < high) {
+            int pivotIndex = partition(arr, low, high);
+            quicksort(arr, low, pivotIndex - 1);  // venstre side
+            quicksort(arr, pivotIndex + 1, high); // høyre side
+            }
+    }
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
     }
 
     private int binarySearch(int[] arr, int target) {
