@@ -18,7 +18,7 @@ public class SortSearchDemo extends Application {
     // UI-felt vi trenger tilgang til i flere metoder
     private TextField inputField;
     private TextField searchField;
-    private TextArea  outputArea;
+    private TextArea outputArea;
 
     @Override
     public void start(Stage stage) {
@@ -40,9 +40,9 @@ public class SortSearchDemo extends Application {
         inputRow.setAlignment(Pos.CENTER_LEFT);
 
         // ── Operasjonsknapper ────────────────────────────────
-        Button sortBtn  = new Button("Sort");
-        Button showBtn  = new Button("Show");
-        Button rem3Btn  = new Button("REM3");
+        Button sortBtn = new Button("Sort");
+        Button showBtn = new Button("Show");
+        Button rem3Btn = new Button("REM3");
 
         sortBtn.setOnAction(e -> handleSort());
         showBtn.setOnAction(e -> handleShow());
@@ -76,8 +76,7 @@ public class SortSearchDemo extends Application {
                 btnRow,
                 searchRow,
                 new Label("Output:"),
-                outputArea
-        );
+                outputArea);
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #ffffff;");
 
@@ -89,8 +88,35 @@ public class SortSearchDemo extends Application {
     // ── Metodeskjelett ────────────────────────────────────────
 
     private void handleLoad() {
-        // TODO: les inputField, valider 8-15 tall, lagre i data[]
+        // Steg 1 - sjekk at feltet ikke er tomt
+        if (inputField.getText().isEmpty()) {
+            outputArea.setText("Please enter some numbers first.");
+            return;
+        }
+
+        // Steg 2 - del opp teksten i enkelt-tall
+        String[] tokens = inputField.getText().trim().split("\\s+");
+
+        // Steg 3 - valider at antallet er mellom 8 og 15
+        if (tokens.length < 8 || tokens.length > 15) {
+            outputArea.setText("Error: Please enter between 8 and 15 integers.");
+            return;
+        }
+
+        // Steg 4 - lagre tallene i data[]
+        try {
+            data = new int[tokens.length];
+            for (int i = 0; i < tokens.length; i++) {
+                data[i] = Integer.parseInt(tokens[i]);
+            }
+            sorted = false;
+            outputArea.setText("Loaded " + tokens.length + " numbers successfully. Press Sort!");
+        } catch (NumberFormatException e) {
+            outputArea.setText("Error: Only integers allowed!");
+        }
     }
+
+    // TODO: les inputField, valider 8-15 tall, lagre i data[]
 
     private void handleSort() {
         // TODO: kall quicksort, sett sorted = true
