@@ -153,6 +153,10 @@ public class QueueDemo extends Application {
                 messageLabel.setText("Queue is full – cannot add more items.");
                 return;
             }
+            if (valueInput.getText().trim().isEmpty()) {
+                messageLabel.setText("Please enter a value to add.");
+                return;
+            }
             try {
                 int value = Integer.parseInt(valueInput.getText().trim());
                 rear = (rear + 1) % capacity;
