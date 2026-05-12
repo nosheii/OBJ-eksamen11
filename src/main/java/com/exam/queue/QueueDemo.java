@@ -2,7 +2,8 @@
  * Queue Demonstration:
  * Array-based circular queue implementation.
  * Supports add, remove, show, and sort operations.
- * F = front index, R = rear index, COUNT = number of elements.
+ * 
+ * Authors: 7188, 7193, 7180
  */
 
 package com.exam.queue;
@@ -46,6 +47,22 @@ public class QueueDemo extends Application {
     private Button showButton   = new Button("Show Queue");
     private Button sortButton   = new Button("Sort Queue");
 
+    /**
+     * Starts the queue demonstration application.
+     * The UI is divided into three steps: creating the queue, adding/removing values, and showing/sorting the queue.
+     * 
+     * Step 1: User inputs the maximum number of elements (N) and clicks "Create Queue". 
+     * This initializes the queue and enables the other buttons.
+     * 
+     * Step 2: User can add values to the rear of the queue or remove values
+     * from the front. Input is validated to ensure only integers are added and that the queue is not full/empty.
+     * 
+     * Step 3: User can view the current queue contents or see a sorted copy of
+     * the queue. The original queue remains unchanged when sorting.
+     * The application uses labels to display the current count, front index, rear index, and messages for user actions and errors.
+     * 
+     * @override is used to indicate that this method overrides the start method in the Application class.
+     */
     @Override
     public void start(Stage stage) {
         stage.setTitle("Queue Demonstration");
