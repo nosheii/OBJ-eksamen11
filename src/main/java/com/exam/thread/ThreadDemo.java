@@ -24,15 +24,15 @@ public class ThreadDemo extends Application {
     public void start(Stage stage) {
 
         // Make the components
-        inputLabel  = new Label("Skriv inn N (antall tall):");
+        inputLabel  = new Label("Enter N (number of integers):");
         inputField  = new TextField();
         startButton = new Button("Start");
         outputArea  = new TextArea();
         statusLabel = new Label("");
         descLabel = new Label(
-            "Dette programmet demonstrerer to tråder som kjører samtidig.\n" +
-            "Tråd 1 beregner Fibonacci-tall rekursivt og viser dem på skjermen.\n" +
-            "Tråd 2 finner alle odde Fibonacci-tall og lagrer dem i en fil."
+            "This program demonstrates two threads running simultaneously.\n" +
+            "Thread 1 calculates Fibonacci numbers recursively and displays them on screen.\n" +
+            "Thread 2 finds all odd Fibonacci numbers and saves them to a file."
         );
         descLabel.setWrapText(true);
 
@@ -58,7 +58,7 @@ public class ThreadDemo extends Application {
                     long result = fibRecursive(i);
                     fibArray[i] = result;
 
-                    int index = i; // kopi av i som ikke endrer seg
+                    int index = i; // copy of i that doesn't change
                     Platform.runLater(() -> {
                         outputArea.appendText("F(" + index + ") = " + result + "\n");
                     });
@@ -69,7 +69,7 @@ public class ThreadDemo extends Application {
             // Thread 2 – Find Odd numbers and save to a separate text file
             Thread oddThread = new Thread(() -> {
                 try {
-                    fibThread.join(); // vent til Tråd 1 er ferdig
+                    fibThread.join(); // wait until the Fibonacci thread is done
 
                     new File("myobjfile").mkdirs();
 
