@@ -18,6 +18,7 @@ public class ThreadDemo extends Application {
     private Button startButton;
     private TextArea outputArea;
     private Label statusLabel;
+    private Label descLabel;
 
     @Override
     public void start(Stage stage) {
@@ -28,12 +29,19 @@ public class ThreadDemo extends Application {
         startButton = new Button("Start");
         outputArea  = new TextArea();
         statusLabel = new Label("");
+        descLabel = new Label(
+            "Dette programmet demonstrerer to tråder som kjører samtidig.\n" +
+            "Tråd 1 beregner Fibonacci-tall rekursivt og viser dem på skjermen.\n" +
+            "Tråd 2 finner alle odde Fibonacci-tall og lagrer dem i en fil."
+        );
+        descLabel.setWrapText(true);
 
         // Plasser dem i en VBox
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
         root.getChildren().addAll(
                 inputLabel,
+                descLabel,
                 inputField,
                 startButton,
                 outputArea,
@@ -78,7 +86,7 @@ public class ThreadDemo extends Application {
                     bw.close();
 
                     Platform.runLater(() -> {
-                        statusLabel.setText("Odde tall lagret i myobjfile/fibo1.txt!");
+                        statusLabel.setText("Oddetall lagret i myobjfile/fibo1.txt!");
                     });
 
                 } catch (Exception ex) {
