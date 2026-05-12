@@ -35,10 +35,12 @@ public class CurrencyConverterDemo extends Application {
 
     /**
      * Starts the currency converter application.
-     * @param stage The primary stage for the application.
      * Components include dropdowns for selecting currencies, a text field for amount input, a convert button, and labels for results and errors.
+     * 
      * The convert button validates the input and performs the currency conversion using the hardcoded exchange rates.
      * Results are displayed with appropriate formatting, and error messages are shown for invalid input.
+     * 
+     * @override is used to indicate that this method overrides the start method in the Application class.
      */
 
     @Override
