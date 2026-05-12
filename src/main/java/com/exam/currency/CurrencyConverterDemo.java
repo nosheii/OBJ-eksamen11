@@ -7,6 +7,15 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 
+
+/**
+ * Currency Converter Demonstration:
+ * Simple currency converter using hardcoded exchange rates relative to EUR.
+ * Supports conversion between EUR, USD, JPY, GBP, SEK, DKK, CHF, CAD, AUD, and NOK.
+ * Validates user input and displays conversion results.
+ * Authors: 7188, 7193
+ */
+
 public class CurrencyConverterDemo extends Application {
 
     // Exchange rates – all relative to EUR
@@ -23,6 +32,14 @@ public class CurrencyConverterDemo extends Application {
         if (currency.equals("NOK")) return 10.8980;
         return 1.0;
     }
+
+    /**
+     * Starts the currency converter application.
+     * @param stage The primary stage for the application.
+     * Components include dropdowns for selecting currencies, a text field for amount input, a convert button, and labels for results and errors.
+     * The convert button validates the input and performs the currency conversion using the hardcoded exchange rates.
+     * Results are displayed with appropriate formatting, and error messages are shown for invalid input.
+     */
 
     @Override
     public void start(Stage stage) {
