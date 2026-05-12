@@ -15,7 +15,7 @@ public class SortSearchDemo extends Application {
     private int[] data;
     private boolean sorted = false;
 
-    // UI-felt vi trenger tilgang til i flere metoder
+    // UI fields we need access to in multiple methods
     private TextField inputField;
     private TextField searchField;
     private TextArea outputArea;
@@ -24,16 +24,16 @@ public class SortSearchDemo extends Application {
     public void start(Stage stage) {
         stage.setTitle("Sort and Search Demonstration");
 
-        // ── Tittel ──────────────────────────────────────────
+        // ── Title ────────────────────────────────────────────
         Label title = new Label("Sort and Search Demonstration");
         title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 16));
 
-        // –– Subtittel –––––––––––––––––––––––––––––––––––––––––
+        // –– Subtitle –––––––––––––––––––––––––––––––––––––––––
         Label subtitle = new Label(
-                "Enter 8-15 numbers sepereated by space, sort them, then search or remove 3 elements at a time.");
+                "Enter 8-15 numbers separated by space, sort them, then search or remove 3 elements at a time.");
         subtitle.setStyle("-fx-text-fill: #666; -fx-font-size: 12;");
 
-        // ── Inputfelt for tall ───────────────────────────────
+        // ── Input field for numbers ──────────────────────────
         inputField = new TextField();
         inputField.setPromptText("Enter 8-15 integers separated by spaces");
         inputField.setPrefWidth(350);
@@ -44,7 +44,7 @@ public class SortSearchDemo extends Application {
         HBox inputRow = new HBox(8, new Label("Numbers:"), inputField, loadBtn);
         inputRow.setAlignment(Pos.CENTER_LEFT);
 
-        // ── Operasjonsknapper ────────────────────────────────
+        // ── Operation buttons ────────────────────────────────
         Button sortBtn = new Button("Sort");
         Button showBtn = new Button("Show");
         Button rem3Btn = new Button("REM3");
@@ -53,7 +53,7 @@ public class SortSearchDemo extends Application {
         showBtn.setOnAction(e -> handleShow());
         rem3Btn.setOnAction(e -> handleRem3());
 
-        // ── Søkefelt + knapp ─────────────────────────────────
+        // ── Search field + button ────────────────────────────
         searchField = new TextField();
         searchField.setPromptText("Search value");
         searchField.setPrefWidth(120);
@@ -67,13 +67,13 @@ public class SortSearchDemo extends Application {
         HBox btnRow = new HBox(10, sortBtn, showBtn, rem3Btn);
         btnRow.setAlignment(Pos.CENTER_LEFT);
 
-        // ── Output-område ────────────────────────────────────
+        // ── Output area ──────────────────────────────────────
         outputArea = new TextArea();
         outputArea.setEditable(false);
         outputArea.setPrefRowCount(10);
         outputArea.setPromptText("Results will appear here...");
 
-        // ── Samle alt i VBox ─────────────────────────────────
+        // ── Combine everything in VBox ───────────────────────
         VBox root = new VBox(12,
                 title,
                 subtitle,
@@ -91,25 +91,25 @@ public class SortSearchDemo extends Application {
         stage.show();
     }
 
-    // ── Metodeskjelett ────────────────────────────────────────
+    // ── Method skeletons ─────────────────────────────────────────────
 
     private void handleLoad() {
-        // Steg 1 - sjekk at feltet ikke er tomt
+        // Step 1 - check if the field is empty
         if (inputField.getText().isEmpty()) {
             outputArea.setText("Please enter some numbers first.");
             return;
         }
 
-        // Steg 2 - del opp teksten i enkelt-tall
+        // Step 2 - split the text into individual numbers
         String[] tokens = inputField.getText().trim().split("\\s+");
 
-        // Steg 3 - valider at antallet er mellom 8 og 15
+        // Step 3 - validate that the number of elements is between 8 and 15
         if (tokens.length < 8 || tokens.length > 15) {
             outputArea.setText("Error: Please enter between 8 and 15 integers.");
             return;
         }
 
-        // Steg 4 - lagre tallene i data[]
+        // Step 4 - store the numbers in data[]
         try {
             data = new int[tokens.length];
             for (int i = 0; i < tokens.length; i++) {
@@ -123,9 +123,9 @@ public class SortSearchDemo extends Application {
     }
 
     /**
-     * Metode for å sortere data[] ved hjelp av quicksort-algoritmen.
-     * Hvis data[] ikke er lastet inn, vises en feilmelding.
-     * Etter sortering settes sorted = true.
+    Method to sort data[] using the quicksort algorithm.
+    If data[] is not loaded, an error message is displayed.
+    After sorting, sorted is set to true.
      */
     private void handleSort() {
         if (data == null) {
@@ -139,18 +139,18 @@ public class SortSearchDemo extends Application {
         for (int i = 0; i < data.length; i++) {
             sb.append(data[i]).append(" ");
         }
-        outputArea.setText("Tallene er sortert!");
+        outputArea.setText("Numbers are sorted!");
     }
 
     private void handleShow() {
-        // Steg 1 - sjekk at data er sortert og lastet inn
+        // Step 1 - check that data is sorted and loaded
         if (data == null || !sorted) {
             outputArea.setText(
                     (data == null) ? "Please load data before showing." : "Please sort the data before showing.");
             return;
         }
 
-        // Steg 3 - bygg opp og vis innholdet
+        // Step 3 - build and display the contents
         StringBuilder sb = new StringBuilder("Array contents: ");
         for (int i = 0; i < data.length; i++) {
             sb.append(data[i]).append(" ");
@@ -185,7 +185,7 @@ public class SortSearchDemo extends Application {
                 return;
             }
 
-            // Binærsøk
+            // Binary search
             int index = binarySearch(data, target);
             if (index != -1) {
                 outputArea.setText("Value " + target + " was found at position " + index + " in the array.");
@@ -206,8 +206,8 @@ public class SortSearchDemo extends Application {
             outputArea.setText("Please sort the data before removing elements.");
             return;
         }
-        // Må ha minst 6 elementer - indeks 0,1,2 før + indeks 3,4,5 som fjernes + minst
-        // 1 etter
+        // Must have at least 6 elements - index 0,1,2 before + index 3,4,5 to be removed + at least
+        // 1 after
         if (data.length < 6) {
             outputArea.setText("Error: Not possible to remove 3 more elements.");
             return;
@@ -216,15 +216,15 @@ public class SortSearchDemo extends Application {
         int startIndex = 3;
         int removeCount = 3;
 
-        // Nytt array er 3 mindre
+        // New array is 3 elements smaller
         int[] newData = new int[data.length - removeCount];
 
-        // Kopier elementene FØR indeks 3
+        // Copy elements BEFORE index 3
         for (int i = 0; i < startIndex; i++) {
             newData[i] = data[i];
         }
 
-        // Kopier elementene ETTER de fjernede
+        // Copy elements AFTER the removed ones
         for (int i = startIndex + removeCount; i < data.length; i++) {
             newData[i - removeCount] = data[i];
         }
@@ -234,12 +234,11 @@ public class SortSearchDemo extends Application {
     }
 
     /*
-     * Quicksort-algoritme. Den tar et array og sorterer det in-place mellom indeks
-     * low og high.
-     * Hvis low er mindre enn high, betyr det at det er mer enn ett element å
-     * sortere.
-     * Vi kaller partition for å finne pivot-indeksen, og deretter rekursivt sortere
-     * de to delene av arrayet.
+     * Quicksort algorithm. It takes an array and sorts it in-place between indices
+     * low and high.
+     * If low is less than high, it means there is more than one element to sort.
+     * We call partition to find the pivot index, and then recursively sort
+     * the two parts of the array.
      */
     private void quicksort(int[] arr, int low, int high) {
         if (low < high) {
@@ -250,20 +249,20 @@ public class SortSearchDemo extends Application {
     }
 
     /*
-     * Partisjoneringsmetode for quicksort. Den tar det siste elementet som pivot,
-     * og ordner elementene slik at alle elementer mindre enn eller lik pivot er til
-     * venstre,
-     * og alle elementer større enn pivoter til høyre.
-     * Den returnerer den nye indeksen for pivot etter partisjoneringen.
+     * Partition method for quicksort. It takes the last element as the pivot,
+     * and arranges the elements such that all elements less than or equal to the pivot are on the
+     * left,
+     * and all elements greater than the pivot are on the right.
+     * It returns the new index of the pivot after partitioning.
      */
     private int partition(int[] arr, int low, int high) {
         int pivot = arr[high];
         int i = low - 1;
 
         /*
-         * Vi itererer gjennom alle elementene fra low til high-1. Hvis vi finner et
-         * element som er mindre enn eller lik pivot,
-         * flytter vi i opp og bytter det elementet med elementet på posisjonen i.
+         * We iterate through all elements from low to high-1. If we find an
+         * element that is less than or equal to the pivot,
+         * we increment i and swap that element with the element at position i.
          */
         for (int j = low; j < high; j++) {
             if (arr[j] <= pivot) {
@@ -274,10 +273,10 @@ public class SortSearchDemo extends Application {
             }
         }
         /*
-         * Etter løkken, i er på den siste posisjonen for elementer mindre enn eller lik
-         * pivot.
-         * Nå bytter vi pivot (arr[high]) med elementet på i+1 for å plassere pivot på
-         * riktig sted.
+         * After the loop, i is at the last position for elements less than or equal to
+         * the pivot.
+         * Now we swap the pivot (arr[high]) with the element at i+1 to place the pivot in
+         * the correct position.
          */
         int temp = arr[i + 1];
         arr[i + 1] = arr[high];
@@ -287,9 +286,9 @@ public class SortSearchDemo extends Application {
     }
 
     /*
-     * Binærsøk-algoritme. Den tar et sortert array og et mål,
-     * og returnerer indeksen til målet hvis det finnes,
-     * ellers returnerer -1.
+     * Binary search algorithm. It takes a sorted array and a target,
+     * and returns the index of the target if it exists,
+     * otherwise returns -1.
      */
     private int binarySearch(int[] arr, int target) {
         int low = 0;
@@ -299,13 +298,13 @@ public class SortSearchDemo extends Application {
             int mid = (low + high) / 2;
 
             if (arr[mid] == target) {
-                return mid; // funnet!
+                return mid; // found!
             } else if (arr[mid] < target) {
-                low = mid + 1; // søk i høyre halvdel
+                low = mid + 1; // search in the right half
             } else {
-                high = mid - 1; // søk i venstre halvdel
+                high = mid - 1; // search in the left half
             }
         }
-        return -1; // ikke funnet
+        return -1; // not found
     }
 }
