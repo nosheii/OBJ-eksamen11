@@ -35,28 +35,28 @@ public class MainApp extends Application {
     public void start(Stage stage) {
         stage.setTitle("OBJ Exam – Demo Launcher");
 
-        // ── Tittel ──────────────────────────────────────────────────
+        // ── Title ────────────────────────────────────────────────────
         Label title = new Label("OBJ Exam – Demo Launcher");
         title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 18));
 
-        Label subtitle = new Label("Velg en demo og trykk Open");
+        Label subtitle = new Label("Choose a demo and click Open");
         subtitle.setStyle("-fx-text-fill: #666;");
 
-        // ── Dropdown ────────────────────────────────────────────────
+        // ── Dropdown ─────────────────────────────────────────────────
         ComboBox<String> combo = new ComboBox<>();
         combo.getItems().addAll(
                 "Queue Demonstration",
                 "Sort and Search Demonstration",
                 "Thread Demonstration",
                 "Currency Converter Demonstration");
-        combo.setPromptText("— Velg en demo —");
+        combo.setPromptText("— Choose a demo —");
         combo.setPrefWidth(300);
 
-        // ── Feilmelding ─────────────────────────────────────────────
+        // ── Error message ────────────────────────────────────────────
         Label errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
 
-        // ── Open-knapp ──────────────────────────────────────────────
+        // ── Open button ──────────────────────────────────────────────
         Button openBtn = new Button("Open");
         openBtn.setPrefWidth(120);
         openBtn.setStyle(
@@ -66,14 +66,14 @@ public class MainApp extends Application {
                         "-fx-background-radius: 6;");
         openBtn.setOnAction(e -> {
             if (combo.getValue() == null) {
-                errorLabel.setText("Velg en demo først!");
+                errorLabel.setText("Please choose a demo first!");
                 return;
             }
             errorLabel.setText("");
             openDemo(combo.getValue());
         });
 
-        // ── Layout ──────────────────────────────────────────────────
+        // ── Layout ───────────────────────────────────────────────────
         VBox root = new VBox(14,
                 title,
                 subtitle,
@@ -91,10 +91,10 @@ public class MainApp extends Application {
     }
 
     /**
-     * Åpner riktig demo-vindu basert på valgt alternativ i dropdown.
-     * Hvert demo-vindu åpnes i en ny Stage slik at hovedmenyen forblir åpen.
+     * Opens the appropriate demo window based on the selected option in the dropdown.
+     * Each demo window opens in a new Stage so that the main menu remains open.
      *
-     * @param choice det valgte alternativet fra ComboBox
+     * @param choice the selected option from ComboBox
      */
     private void openDemo(String choice) {
         try {
@@ -110,9 +110,9 @@ public class MainApp extends Application {
     }
 
     /**
-     * Standard Java main-metode – starter JavaFX-applikasjonen.
+     * Standard Java main method – starts the JavaFX application.
      *
-     * @param args kommandolinjeargumenter (brukes ikke)
+     * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
         launch(args);
