@@ -29,7 +29,8 @@ public class SortSearchDemo extends Application {
         title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 16));
 
         // –– Subtittel –––––––––––––––––––––––––––––––––––––––––
-        Label subtitle = new Label("Enter 8-15 numbers, sort them, then search or remove 3 elements at a time.");
+        Label subtitle = new Label(
+                "Enter 8-15 numbers sepereated by space, sort them, then search or remove 3 elements at a time.");
         subtitle.setStyle("-fx-text-fill: #666; -fx-font-size: 12;");
 
         // ── Inputfelt for tall ───────────────────────────────
