@@ -11,6 +11,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+/** 
+ * Thread demonstration program:
+ * This program demonstrates two threads running simultaneously.
+ * Thread 1 calculates Fibonacci numbers recursively and displays them on the screen.
+ * Thread 2 finds all odd Fibonacci numbers and saves them in a file.
+ * Authors: 7186, 7237
+ */
+
 public class ThreadDemo extends Application {
 
     private Label inputLabel;
@@ -20,6 +28,13 @@ public class ThreadDemo extends Application {
     private Label statusLabel;
     private Label descLabel;
 
+    /**
+     * Starts the thread demonstration application.
+     * Components include a text field for input, a button to start the threads, a text area for output, and labels for status and description.
+     * The start button initiates two threads: one for calculating Fibonacci numbers and another for finding odd Fibonacci numbers and saving them to a file.
+     * The Fibonacci thread calculates the Fibonacci numbers recursively and updates the output area with the results.
+     * The odd thread waits for the Fibonacci thread to finish, then writes all odd Fibonacci numbers to a file.
+     */
     @Override
     public void start(Stage stage) {
 

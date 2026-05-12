@@ -1,5 +1,7 @@
 package com.exam.sort;
 
+import java.lang.reflect.Method;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +11,14 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+/** 
+ * Sort and Search Demonstration:
+ * This program demonstrates sorting and searching algorithms.
+ * Users can input a list of integers, sort them using quicksort, display the sorted array, 
+ * search for specific values using binary search, and remove elements from the array.
+ * Authors: 7180, 7186, 7237
+ */
 
 public class SortSearchDemo extends Application {
 
@@ -20,6 +30,14 @@ public class SortSearchDemo extends Application {
     private TextField searchField;
     private TextArea outputArea;
 
+    /**
+     * Starts the sort and search demonstration application.
+     * The UI includes a title, subtitle, input field for numbers, buttons for sorting,
+     * showing, removing elements, a search field with a button, and an output area for results.
+     * The load button validates the input and stores it in an array. The sort button sorts the array using quicksort.
+     * The show button displays the sorted array. The search button performs a binary search for the specified value.
+     * The rem3 button removes 3 elements starting from index 3. All operations check for proper loading and sorting before executing.
+     */
     @Override
     public void start(Stage stage) {
         stage.setTitle("Sort and Search Demonstration");
@@ -91,8 +109,13 @@ public class SortSearchDemo extends Application {
         stage.show();
     }
 
-    // ── Method skeletons ─────────────────────────────────────────────
+ 
 
+    /** 
+     * Method to load data from the input field. It validates that the input is not empty, 
+     * contains between 8 and 15 integers, and stores them in the data[] array. 
+     * If validation fails, an appropriate error message is displayed in the output area.
+     */
     private void handleLoad() {
         // Step 1 - check if the field is empty
         if (inputField.getText().isEmpty()) {
@@ -141,7 +164,10 @@ public class SortSearchDemo extends Application {
         }
         outputArea.setText("Numbers are sorted!");
     }
-
+    /**
+    Method to display the contents of data[] in the output area. 
+    It checks if data[] is loaded and sorted before displaying.
+     */
     private void handleShow() {
         // Step 1 - check that data is sorted and loaded
         if (data == null || !sorted) {
