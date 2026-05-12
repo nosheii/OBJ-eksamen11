@@ -18,33 +18,41 @@ public class ThreadDemo extends Application {
     private Button startButton;
     private TextArea outputArea;
     private Label statusLabel;
+    private Label descLabel;
 
     @Override
     public void start(Stage stage) {
 
-        // Lag komponentene
+        // Make the components
         inputLabel  = new Label("Skriv inn N (antall tall):");
         inputField  = new TextField();
         startButton = new Button("Start");
         outputArea  = new TextArea();
         statusLabel = new Label("");
+        descLabel = new Label(
+            "Dette programmet demonstrerer to tråder som kjører samtidig.\n" +
+            "Tråd 1 beregner Fibonacci-tall rekursivt og viser dem på skjermen.\n" +
+            "Tråd 2 finner alle odde Fibonacci-tall og lagrer dem i en fil."
+        );
+        descLabel.setWrapText(true);
 
-        // Plasser dem i en VBox
+        // Put them in a VBox
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
         root.getChildren().addAll(
                 inputLabel,
+                descLabel,
                 inputField,
                 startButton,
                 outputArea,
                 statusLabel);
 
-        // Knappen starter trådene
+        // Button starts the thread
         startButton.setOnAction(e -> {
             int N = Integer.parseInt(inputField.getText());
             long[] fibArray = new long[N];
 
-            // Tråd 1 – beregn og vis Fibonacci
+            // Thread 1 – calculate and show the Fibonacci numbers
             Thread fibThread = new Thread(() -> {
                 for (int i = 0; i < N; i++) {
                     long result = fibRecursive(i);
@@ -58,7 +66,7 @@ public class ThreadDemo extends Application {
             });
             fibThread.start();
 
-            // Tråd 2 – finn oddetall og skriv til fil
+            // Thread 2 – Find Odd numbers and save to a separate text file
             Thread oddThread = new Thread(() -> {
                 try {
                     fibThread.join(); // vent til Tråd 1 er ferdig
@@ -78,7 +86,7 @@ public class ThreadDemo extends Application {
                     bw.close();
 
                     Platform.runLater(() -> {
-                        statusLabel.setText("Odde tall lagret i myobjfile/fibo1.txt!");
+                        statusLabel.setText("Odd numbers have been saved in myobjfile/fibo1.txt!");
                     });
 
                 } catch (Exception ex) {
@@ -88,13 +96,13 @@ public class ThreadDemo extends Application {
             oddThread.start();
         });
 
-        // Vis vinduet
+        // Show window
         stage.setTitle("Fibonacci Threads");
         stage.setScene(new Scene(root, 400, 500));
         stage.show();
     }
 
-    // Rekursiv Fibonacci-metode
+    //Recursively Fibonacci-method
     public static long fibRecursive(int n) {
         if (n == 0) return 0;
         if (n == 1) return 1;
